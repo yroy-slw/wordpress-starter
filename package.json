@@ -1,25 +1,22 @@
 {
-  "name": "maximed-theme",
+  "name": "wordpress-starter",
   "version": "2.0.0",
-  "description": "Maximed Website",
-  "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "Gulp starter utils",
   "author": "yroy-slw",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yroy-slw/wordpress-starter.git"
+  },
   "devDependencies": {
-    "fs-extra": "^2.0.0",
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^3.1.1",
     "gulp-jshint": "^2.0.4",
-    "gulp-livereload": "^3.8.1",
-    "gulp-notify": "^2.2.0",
-    "gulp-plumber": "^1.1.0",
     "gulp-sass": "^3.1.0",
-    "json-file": "^0.1.0",
-    "node-fs": "^0.1.7"
+    "gulp-watch": "^4.3.11",
+    "jshint": "^2.9.4"
   },
   "themeName": "myNewTheme"
 }
