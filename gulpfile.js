@@ -1,19 +1,27 @@
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    jshint = require('gulp-jshint'),
     concat = require('gulp-concat'),
+    sass = require('gulp-sass'),
     cleanCss = require('gulp-clean-css'),
-    watch = require('gulp-watch');
-    imagemin = require('gulp-imagemin');
+    autoprefixer = require('gulp-autoprefixer'),
+    jshint = require('gulp-jshint'),
+    watch = require('gulp-watch'),
+    gutil = require( 'gulp-util' ),
+    ftp = require( 'vinyl-ftp' );
 
- 
-gulp.task('default', function(){
-    console.log('default gulp task...')
-});
+var sass_paths = [
+  'theme/css/src/reset.sass',
+  'theme/css/src/variables.sass',
+  'theme/css/src/general.sass',
+  'theme/css/src/mediaqueries.sass'
+];
 
 gulp.task('sass', function () {
-  gulp.src('theme/css/src/*.scss')
+  gulp.src(less_paths)
     	.pipe(sass())
+      .pipe(autoprefixer({
+        browsers: ['last 6 versions'],
+        cascade: false
+      }))
       .pipe(concat('global.css'))
       .pipe(cleanCss({
         aggressiveMerging: false
@@ -28,17 +36,44 @@ gulp.task('js', function () {
 		.pipe(gulp.dest('theme/js'));
 });
 
-gulp.task('img', function() {
-  	gulp.src('theme/img/src/*.{png,jpg,gif}')
-    	.pipe(imagemin({
-      		optimizationLevel: 7,
-      		progressive: true
-    	}))
-    	.pipe(gulp.dest('theme/img'))
+var user = ''; 
+var password = '';
+var host = '';  
+var port = 21;  
+var localFilesGlob = ['./**/*'];
+var remoteFolder = '/wp-content/themes/theme/'
+function getFtpConnection() {  
+    return ftp.create({
+        host: host,
+        port: port,
+        user: user,
+        password: password,
+        parallel: 10,
+        log: gutil.log
+    });
+}
+
+gulp.task('ftp-deploy', function() {
+    var conn = getFtpConnection();
+    return gulp.src(localFilesGlob, { base: '.', buffer: false })
+        .pipe( conn.newer( remoteFolder ) ) // only upload newer files 
+        .pipe( conn.dest( remoteFolder ) )
+    ;
 });
 
-gulp.task('default', ['sass', 'js', 'img'],function(){
+gulp.task('ftp-deploy-watch', function() {
+    var conn = getFtpConnection();
+    gulp.watch(localFilesGlob)
+    .on('change', function(event) {
+      console.log('Changes detected! Uploading file "' + event.path + '", ' + event.type);
+      return gulp.src( [event.path], { base: '.', buffer: false } )
+        .pipe( conn.newer( remoteFolder ) ) // only upload newer files 
+        .pipe( conn.dest( remoteFolder ) )
+      ;
+    });
+});
+
+gulp.task('default', ['sass', 'js'],function(){
     gulp.watch('theme/css/src/*.scss', ['sass']);
     gulp.watch('theme/js/src/*.js', ['js']);
-    gulp.watch('theme/img/src/*.{png,jpg,gif}', ['img']);
 });
