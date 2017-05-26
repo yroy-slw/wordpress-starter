@@ -11,12 +11,13 @@ var gulp = require('gulp'),
 var sass_paths = [
   'theme/css/src/reset.sass',
   'theme/css/src/variables.sass',
+  'theme/css/src/fonts.sass',
   'theme/css/src/general.sass',
   'theme/css/src/mediaqueries.sass'
 ];
 
 gulp.task('sass', function () {
-  gulp.src(less_paths)
+  gulp.src(sass_paths)
     	.pipe(sass())
       .pipe(autoprefixer({
         browsers: ['last 6 versions'],

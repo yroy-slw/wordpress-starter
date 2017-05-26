@@ -8,20 +8,16 @@
     "type": "git",
     "url": "https://github.com/yroy-slw/wordpress-starter.git"
   },
-  "devDependencies": {
+  "themeName": "myNewTheme",
+  "dependencies": {
     "gulp": "^3.9.1",
-    "gulp-clean-css": "^3.3.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.4.0",
     "gulp-concat": "^2.6.1",
-    "gulp-imagemin": "^3.1.1",
     "gulp-jshint": "^2.0.4",
     "gulp-sass": "^3.1.0",
-    "gulp-util": "^3.0.8",
     "gulp-watch": "^4.3.11",
     "jshint": "^2.9.4",
     "vinyl-ftp": "^0.6.0"
-  },
-  "devDependencies": {
-    "gulp-autoprefixer": "^4.0.0"
-  },
-  "themeName": "myNewTheme"
+  }
 }
